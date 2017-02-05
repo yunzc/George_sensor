@@ -15,7 +15,7 @@ counter = 0
 datapacket = []
 c_prev_data = [0, 0, 0] #calibration use
 data = [None, None, None]
-threshold = 0.05
+threshold = 5
 dataLabel = ser.readline().split()[0]
 value_stable = False
 while dataLabel != 'ultrasonicsensor':
@@ -24,16 +24,16 @@ while dataLabel != 'ultrasonicsensor':
 print('wait for data to stabilize')
 while not value_stable:
 	meas = ser.readline().split()
-	if meas[0] == "ypr":
+	if meas[0] == "areal":
 		value_stable = True
 		for i in range(3):
 			if float(meas[i+1]) - c_prev_data[i] > threshold:
 				value_stable = False
 		c_prev_data = [float(meas[1]),float(meas[2]),float(meas[3])]
 
-while counter < 10:  
-	print data
+while counter < 20:
 	if None not in data:
+		print(data)
 		datapacket.append(data)
 		counter += 1
 		data = [None, None, None]
